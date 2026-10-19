@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fox Facebook Pro Version 120.0.9</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 12px;
+      background: radial-gradient(circle at center, #1b3d68 0%, #0d1e38 50%, #061120 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    /* THEME VARIABLES (Default: Gold theme from screenshot) */
+    :root {
+      --app-bg: #141414;
+      --panel-bg: #181818;
+      --card-bg: #1f1f1f;
+      --border-color: #d4a017;
+      --border-accent: #f59e0b;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --input-bg: #0f0f0f;
+      --table-header: #1e1e1e;
+      --table-row-odd: #161616;
+      --table-row-hover: #26241b;
+      --table-row-selected: #3b3210;
+      --accent-color: #d4a017;
+      --accent-text: #ffffff;
+      --win-border: #3b3726;
+    }
+
+    /* Dynamic themes */
+    body[data-theme="Dark"] {
+      --app-bg: #111315;
+      --panel-bg: #16191d;
+      --card-bg: #1d2127;
+      --border-color: #3b82f6;
+      --border-accent: #60a5fa;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --input-bg: #0d0f12;
+      --table-header: #1b2028;
+      --table-row-odd: #14171c;
+      --table-row-hover: #1e293b;
+      --table-row-selected: #1e3a5f;
+      --accent-color: #3b82f6;
+      --accent-text: #ffffff;
+      --win-border: #1e293b;
+    }
+
+    body[data-theme="Light"] {
+      --app-bg: #f1f5f9;
+      --panel-bg: #ffffff;
+      --card-bg: #f8fafc;
+      --border-color: #64748b;
+      --border-accent: #334155;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --input-bg: #ffffff;
+      --table-header: #e2e8f0;
+      --table-row-odd: #f8fafc;
+      --table-row-hover: #e2e8f0;
+      --table-row-selected: #cbd5e1;
+      --accent-color: #2563eb;
+      --accent-text: #ffffff;
+      --win-border: #94a3b8;
+    }
+
+    body[data-theme="Pink"] {
+      --app-bg: #1a1017;
+      --panel-bg: #22141f;
+      --card-bg: #2d1828;
+      --border-color: #ec4899;
+      --border-accent: #f472b6;
+      --text-main: #fce7f3;
+      --text-muted: #f472b6;
+      --input-bg: #150a12;
+      --table-header: #35182e;
+      --table-row-odd: #1e0e1c;
+      --table-row-hover: #3d1b35;
+      --table-row-selected: #501d45;
+      --accent-color: #ec4899;
+      --accent-text: #ffffff;
+      --win-border: #4a1939;
+    }
+
+    body[data-theme="Dracula"] {
+      --app-bg: #282a36;
+      --panel-bg: #21222c;
+      --card-bg: #343746;
+      --border-color: #bd93f9;
+      --border-accent: #ff79c6;
+      --text-main: #f8f8f2;
+      --text-muted: #6272a4;
+      --input-bg: #191a21;
+      --table-header: #2f3140;
+      --table-row-odd: #242632;
+      --table-row-hover: #44475a;
+      --table-row-selected: #44475a;
+      --accent-color: #bd93f9;
+      --accent-text: #282a36;
+      --win-border: #6272a4;
+    }
+
+    /* Custom Fieldset Group styling from Windows desktop automation tools */
+    .win-group {
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 12px 10px 12px;
+      position: relative;
+      background: var(--panel-bg);
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .win-group-legend {
+      position: absolute;
+      top: -10px;
+      left: 14px;
+      background: var(--panel-bg);
+      padding: 0 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--border-accent);
+      text-transform: capitalize;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #fff;
+    }
+
+    /* Golden Windows style button */
+    .win-btn {
+      border: 1px solid var(--border-color);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0.3) 100%);
+      color: var(--text-main);
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .win-btn:hover {
+      border-color: #fff;
+      color: #fff;
+      box-shadow: 0 0 8px rgba(212, 160, 23, 0.4);
+    }
+    .win-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Active nav item */
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-bottom: 4px;
+      width: 100%;
+      text-align: left;
+    }
+    .nav-btn.active {
+      background: #d4a017;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(212, 160, 23, 0.4);
+    }
+    .nav-btn:not(.active) {
+      color: #a0aec0;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+    .nav-btn:not(.active):hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border-color: #333;
+    }
+
+    /* Custom form elements */
+    .win-input, .win-select {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      outline: none;
+    }
+    .win-input:focus, .win-select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 5px rgba(96, 165, 250, 0.5);
+    }
+
+    /* Table styles */
+    .custom-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 11px;
+    }
+    .custom-table th {
+      background: var(--table-header);
+      color: #cbd5e1;
+      padding: 5px 6px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid #2d2d2d;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .custom-table td {
+      padding: 4px 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-right: 1px solid rgba(255, 255, 255, 0.03);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .custom-table tbody tr:nth-child(even) {
+      background: var(--table-row-odd);
+    }
+    .custom-table tbody tr:hover {
+      background: var(--table-row-hover) !important;
+      cursor: pointer;
+    }
+    .custom-table tbody tr.selected {
+      background: var(--table-row-selected) !important;
+      color: #fff;
+    }
+
+    /* Radio button custom look */
+    .win-radio {
+      accent-color: var(--border-accent);
+      cursor: pointer;
+    }
+    .win-checkbox {
+      accent-color: var(--border-accent);
+      cursor: pointer;
+    }
+
+    /* Animation pulse */
+    @keyframes pulse-dot {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+    .running-dot {
+      animation: pulse-dot 1.2s infinite;
+    }
+  </style>
+</head>
+<body data-theme="Gold">
+
+  <!-- Main Desktop Window Container (Simulating Fox Facebook Pro Application) -->
+  <div id="app-window" class="w-full max-w-[1360px] h-[920px] max-h-[96vh] rounded-lg shadow-2xl flex flex-col overflow-hidden transition-all duration-300"
+       style="background: var(--app-bg); border: 1.5px solid var(--border-color); box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 25px rgba(212,160,23,0.15);">
+    
+    <!-- Titlebar Window Chrome -->
+    <div class="h-8 flex items-center justify-between px-3 select-none border-b"
+         style="background: #111111; border-color: rgba(255,255,255,0.08);">
+      <div class="flex items-center gap-2 text-xs text-gray-300">
+        <!-- Facebook Icon -->
+        <span class="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-bold">
+          <i class="fab fa-facebook-f"></i>
+        </span>
+        <span class="font-medium text-gray-300">Fox Facebook Pro</span>
+        <span class="text-gray-500 font-normal">Version 120.0.9</span>
+        <span class="text-gray-500 font-normal ml-2">Expire: <strong class="text-gray-400 font-semibold">9999 Days Left</strong></span>
+      </div>
+
+      <!-- Windows Control Buttons -->
+      <div class="flex items-center text-gray-400 text-xs">
+        <button onclick="minimizeWindow()" class="h-8 w-11 hover:bg-gray-800 flex items-center justify-center transition-colors">
+          <i class="fas fa-minus text-[10px]"></i>
+        </button>
+        <button onclick="toggleMaximize()" class="h-8 w-11 hover:bg-gray-800 flex items-center justify-center transition-colors">
+          <i class="far fa-square text-[10px]"></i>
+        </button>
+        <button onclick="closeAppModal()" class="h-8 w-11 hover:bg-red-600 hover:text-white flex items-center justify-center transition-colors">
+          <i class="fas fa-times text-[11px]"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Body Layout: Sidebar + Dashboard Panels -->
+    <div class="flex flex-1 overflow-hidden p-2.5 gap-2.5">
+      
+      <!-- LEFT SIDEBAR -->
+      <div class="w-48 flex flex-col justify-between shrink-0 select-none">
+        <div>
+          <!-- User Profile Box -->
+          <div class="flex flex-col items-center justify-center pt-2 pb-4">
+            <div class="w-16 h-16 rounded-full p-0.5 relative mb-2" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
+              <div class="w-full h-full rounded-full overflow-hidden bg-slate-800 flex items-center justify-center">
+                <!-- SVG Avatar representing the user avatar from screenshot -->
+                <svg viewBox="0 0 64 64" class="w-full h-full">
+                  <circle cx="32" cy="32" r="32" fill="#20293a"/>
+                  <!-- Hair -->
+                  <path d="M20 25 C18 16, 26 10, 32 10 C38 10, 46 16, 44 25 C41 23, 38 23, 32 23 C26 23, 23 23, 20 25 Z" fill="#2d3748"/>
+                  <!-- Face -->
+                  <circle cx="32" cy="27" r="11" fill="#fcd34d"/>
+                  <!-- Hair Fringe -->
+                  <path d="M23 22 C27 20, 31 22, 34 20 C37 18, 41 21, 41 21" stroke="#1f2937" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <!-- Hoodie -->
+                  <path d="M14 60 C14 43, 22 39, 32 39 C42 39, 50 43, 50 60 Z" fill="#2563eb"/>
+                  <path d="M26 39 L32 48 L38 39" stroke="#fcd34d" stroke-width="2" fill="none"/>
+                </svg>
+              </div>
+              <span class="absolute bottom-0 right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-black rounded-full" title="Active License"></span>
+            </div>
+            <div class="text-sm font-semibold text-slate-200">Nak Kanann</div>
+          </div>
+
+          <!-- Navigation Menu -->
+          <div class="space-y-1 mt-1">
+            <button class="nav-btn active" id="btn-nav-dashboard" onclick="switchNav('dashboard')">
+              <i class="fas fa-compass text-sm"></i>
+              <span>Dashboard</span>
+            </button>
+            <button class="nav-btn" id="btn-nav-active" onclick="switchNav('active')">
+              <i class="fas fa-check-square text-sm"></i>
+              <span>Active</span>
+            </button>
+            <button class="nav-btn" id="btn-nav-login" onclick="switchNav('login')">
+              <i class="fas fa-users-cog text-sm"></i>
+              <span>Login Accounts</span>
+            </button>
+            <button class="nav-btn" id="btn-nav-reg" onclick="switchNav('reg')">
+              <i class="fas fa-user-plus text-sm"></i>
+              <span>Reg Accounts</span>
+            </button>
+          </div>
+
+          <!-- Theme Selector Window Group -->
+          <div class="win-group mt-5">
+            <span class="win-group-legend">Theme Selector</span>
+            <div class="flex flex-col gap-1.5 pt-1">
+              <button onclick="setTheme('Dark')" id="theme-btn-Dark" class="theme-btn py-1 px-3 text-xs rounded border border-gray-700 hover:border-gray-500 text-gray-300 text-center transition-all">Dark</button>
+              <button onclick="setTheme('Light')" id="theme-btn-Light" class="theme-btn py-1 px-3 text-xs rounded border border-gray-700 hover:border-gray-500 text-gray-300 text-center transition-all">Light</button>
+              <button onclick="setTheme('Pink')" id="theme-btn-Pink" class="theme-btn py-1 px-3 text-xs rounded border border-gray-700 hover:border-gray-500 text-gray-300 text-center transition-all">Pink</button>
+              <button onclick="setTheme('Gold')" id="theme-btn-Gold" class="theme-btn py-1 px-3 text-xs rounded border border-amber-500 bg-amber-500 text-black font-semibold text-center transition-all shadow">Gold</button>
+              <button onclick="setTheme('Dracula')" id="theme-btn-Dracula" class="theme-btn py-1 px-3 text-xs rounded border border-gray-700 hover:border-gray-500 text-gray-300 text-center transition-all">Dracula</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Platform Action Buttons -->
+        <div class="space-y-1.5 mb-1">
+          <!-- YouTube Button -->
+          <a href="https://youtube.com" target="_blank" class="w-full flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-xs font-semibold shadow transition-transform active:scale-95"
+             style="background: linear-gradient(90deg, #ff0000, #c80000); border: 1px solid #ff4d4d;">
+            <i class="fab fa-youtube text-sm"></i>
+            <span>YouTube</span>
+          </a>
+
+          <!-- Facebook Button -->
+          <a href="https://facebook.com" target="_blank" class="w-full flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-xs font-semibold shadow transition-transform active:scale-95"
+             style="background: linear-gradient(90deg, #1877f2, #0d5ec4); border: 1px solid #4a9eff;">
+            <i class="fab fa-facebook text-sm"></i>
+            <span>Facebook</span>
+          </a>
+
+          <!-- Telegram Button -->
+          <a href="https://telegram.org" target="_blank" class="w-full flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-xs font-semibold shadow transition-transform active:scale-95"
+             style="background: linear-gradient(90deg, #229ed9, #1b84b6); border: 1px solid #55c4f7;">
+            <i class="fab fa-telegram-plane text-sm"></i>
+            <span>Telegram</span>
+          </a>
+
+          <!-- TikTok Button -->
+          <a href="https://tiktok.com" target="_blank" class="w-full flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-xs font-semibold shadow transition-transform active:scale-95"
+             style="background: linear-gradient(90deg, #121212, #242424); border: 1px solid #444;">
+            <i class="fab fa-tiktok text-sm"></i>
+            <span>TikTok</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT MAIN CONTENT AREA -->
+      <div class="flex-1 flex flex-col gap-2.5 overflow-hidden">
+        
+        <!-- TOP: DASHBOARD / ACCOUNTS MANAGER GROUP -->
+        <div class="win-group flex-[3] flex flex-col min-h-0 overflow-hidden">
+          <span class="win-group-legend">Dashboard</span>
+
+          <!-- Top Toolbar Row 1: Category actions + IP/Country Display -->
+          <div class="flex items-center justify-between pb-2 pt-1 border-b border-gray-800 gap-2">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <!-- Category dropdown -->
+              <select id="categorySelect" class="win-select w-36" onchange="filterByCategory()">
+                <option value="All">All Accounts</option>
+                <option value="Khmer">Khmer Accounts</option>
+                <option value="US">US Verified</option>
+                <option value="VIP">VIP Farm 2026</option>
+              </select>
+
+              <!-- Category Input -->
+              <input type="text" id="newCategoryInput" placeholder="Enter Category Name." class="win-input w-40 text-xs">
+              
+              <!-- Buttons -->
+              <button onclick="createCategory()" class="win-btn text-cyan-400">
+                <i class="fas fa-plus text-xs"></i> Create Category
+              </button>
+              <button onclick="deleteCategory()" class="win-btn text-red-400">
+                <i class="fas fa-trash-alt text-xs"></i> Delete Category
+              </button>
+            </div>
+
+            <!-- IP and Country info (top right) -->
+            <div class="text-right text-[11px] leading-tight select-text">
+              <div class="text-cyan-400 font-mono">IP Address: <span id="currentIp">175.100.33.185</span></div>
+              <div class="text-cyan-400">Country: <span id="currentCountry">Cambodia (KH)</span></div>
+            </div>
+          </div>
+
+          <!-- Top Toolbar Row 2: Secondary category filter + View Radios + Search & Stats -->
+          <div class="flex flex-wrap items-center justify-between py-1.5 gap-2 text-xs">
+            <div class="flex items-center gap-1.5">
+              <select class="win-select w-36">
+                <option>Khmer Accounts</option>
+                <option>Gaming Accounts</option>
+                <option>Ads Manager</option>
+              </select>
+
+              <button onclick="addToCategory()" class="win-btn text-blue-400">
+                <i class="fas fa-plus text-[10px]"></i> Add To
+              </button>
+              <button onclick="removeFromCategory()" class="win-btn text-amber-500">
+                <i class="fas fa-times text-[10px]"></i> Remove From
+              </button>
+              <button onclick="refreshTableData()" class="win-btn text-emerald-400">
+                <i class="fas fa-sync-alt text-[10px]"></i> Refresh
+              </button>
+            </div>
+
+            <!-- View type radio + Search bar + Counts -->
+            <div class="flex items-center gap-3">
+              <!-- Radio Profiles / Pages -->
+              <label class="flex items-center gap-1 cursor-pointer">
+                <input type="radio" name="viewMode" value="profiles" checked class="win-radio" onchange="toggleViewMode('profiles')">
+                <span class="text-xs text-gray-300">Profile</span>
+              </label>
+              <label class="flex items-center gap-1 cursor-pointer">
+                <input type="radio" name="viewMode" value="pages" class="win-radio" onchange="toggleViewMode('pages')">
+                <span class="text-xs text-gray-300">Pages</span>
+              </label>
+
+              <!-- Search Input -->
+              <div class="relative">
+                <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Search..." 
+                       class="win-input w-44 pr-6 pl-2 py-0.5 text-xs rounded-full">
+                <i class="fas fa-search absolute right-2 top-1.5 text-cyan-400 text-xs"></i>
+              </div>
+
+              <!-- Metrics -->
+              <div class="flex items-center gap-3 text-xs text-gray-300 border-l border-gray-700 pl-3">
+                <div>Total Accounts: <span id="statTotal" class="text-white font-semibold">52</span></div>
+                <div>Accounts issue: <span id="statIssue" class="text-amber-400 font-semibold">0</span></div>
+                <div>Selected <span id="statSelected" class="text-cyan-400 font-semibold">0</span>/<span id="statSelectedMax">52</span></div>
+                <label class="flex items-center gap-1 cursor-pointer ml-1">
+                  <input type="checkbox" id="selectAllAccounts" onchange="toggleSelectAllAccounts(this.checked)" class="win-checkbox">
+                  <span class="text-xs">Select All</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scrollable Table Grid -->
+          <div class="flex-1 overflow-auto border border-neutral-800 rounded mt-1 bg-black/40 relative">
+            <table class="custom-table" id="accountsTable">
+              <thead>
+                <tr>
+                  <th style="width: 38px;">ID</th>
+                  <th style="width: 140px;">Profile Name</th>
+                  <th style="width: 50px;">Pages</th>
+                  <th style="width: 60px;">Friends</th>
+                  <th style="width: 130px;">Primary</th>
+                  <th style="width: 130px;">GPS</th>
+                  <th style="width: 110px;">VPN City</th>
+                  <th style="width: 120px;">Delete Post</th>
+                  <th style="width: 90px;">Folder</th>
+                  <th style="width: 70px;">Status</th>
+                  <th style="width: 80px;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="accountsTableBody">
+                <!-- Dynamically populated rows via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BOTTOM: EMULATOR (LEFT) & EMULATOR CONTROLLER (RIGHT) -->
+        <div class="flex-[2] flex gap-2.5 min-h-[260px]">
+          
+          <!-- LEFT BOTTOM: EMULATOR LIST (LDPLAYER / MUMU / REAL DEVICES) -->
+          <div class="win-group flex-[5] flex flex-col min-h-0 overflow-hidden">
+            <span class="win-group-legend">Emulator</span>
+
+            <!-- Emulator header tabs & Selection count -->
+            <div class="flex items-center justify-between pb-1.5 pt-0.5 text-xs border-b border-gray-800">
+              <div class="flex items-center gap-4">
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input type="radio" name="emuType" value="LDPlayer" checked class="win-radio" onchange="switchEmulatorTab('LDPlayer')">
+                  <span>LDPlayer</span>
+                </label>
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input type="radio" name="emuType" value="Mumu" class="win-radio" onchange="switchEmulatorTab('Mumu')">
+                  <span>Mumu Player</span>
+                </label>
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input type="radio" name="emuType" value="Real" class="win-radio" onchange="switchEmulatorTab('Real')">
+                  <span>Real Devices</span>
+                </label>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <span class="text-gray-400">Selected <span id="emuSelectedCount" class="text-cyan-400">0</span>/8</span>
+                <label class="flex items-center gap-1 cursor-pointer">
+                  <input type="checkbox" id="selectAllEmu" onchange="toggleSelectAllEmulators(this.checked)" class="win-checkbox">
+                  <span>Select All</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Emulator Table -->
+            <div class="flex-1 overflow-auto border border-neutral-800 rounded mt-1.5 bg-black/40">
+              <table class="custom-table" id="emulatorTable">
+                <thead>
+                  <tr>
+                    <th style="width: 40px;">ID</th>
+                    <th style="width: 140px;">LDPlayer Name</th>
+                    <th style="width: 140px;">Device Name</th>
+                    <th style="width: 90px;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="emulatorTableBody">
+                  <!-- Generated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- RIGHT BOTTOM: EMULATOR CONTROLLER CONFIGURATION PANEL -->
+          <div class="win-group flex-[6] flex flex-col justify-between overflow-hidden">
+            <span class="win-group-legend">Emulator Controller</span>
+
+            <div class="space-y-2 pt-1 text-xs">
+              <!-- Path selector -->
+              <div class="flex items-center gap-2">
+                <label class="w-24 text-gray-400 text-right shrink-0">Emulator Path:</label>
+                <input type="text" id="emuPathInput" value="C:/LDPlayer/LDPlayer9" class="win-input flex-1 font-mono text-[11px]">
+                <button onclick="browseEmulatorPath()" class="win-btn text-cyan-400 px-2" title="Browse Path">
+                  <i class="far fa-folder-open text-xs"></i>
+                </button>
+                <button onclick="refreshADBDevices()" class="win-btn text-emerald-400 px-2" title="Refresh ADB">
+                  <i class="fas fa-sync-alt text-xs"></i> Refresh
+                </button>
+              </div>
+
+              <!-- Thread and Delay controls -->
+              <div class="grid grid-cols-2 gap-3">
+                <div class="flex items-center gap-2">
+                  <label class="w-24 text-gray-400 text-right shrink-0">Max Thread:</label>
+                  <input type="number" id="maxThreads" value="8" min="1" max="64" class="win-input w-24">
+                </div>
+                <div class="flex items-center gap-2">
+                  <label class="w-28 text-gray-400 text-right shrink-0">Between Emulator:</label>
+                  <input type="number" id="betweenDelay" value="25" min="1" max="999" class="win-input w-24">
+                </div>
+              </div>
+
+              <!-- Sleep & Loop Controls + Clock -->
+              <div class="grid grid-cols-2 gap-3 items-center">
+                <div class="flex items-center gap-2">
+                  <label class="w-24 text-gray-400 text-right shrink-0">Emulator Sleep:</label>
+                  <input type="number" id="emuSleep" value="1" min="0" class="win-input w-24">
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <label class="w-28 text-gray-400 text-right shrink-0">Worker Loop:</label>
+                    <input type="number" id="workerLoop" value="1" min="1" class="win-input w-16">
+                  </div>
+                  <!-- Stopwatch / Timer Display from screenshot -->
+                  <div class="font-mono text-amber-400 font-bold text-base px-2 py-0.5 rounded border border-gray-800 bg-black/60 shadow-inner" id="timerDisplay">
+                    00:00:00
+                  </div>
+                </div>
+              </div>
+
+              <!-- Automation Checkboxes -->
+              <div class="grid grid-cols-3 gap-2 pt-1 border-t border-gray-800/80">
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="chkRunSchedule" class="win-checkbox">
+                  <span class="text-gray-300">Run Schedule</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="chkAutoShutdown" class="win-checkbox">
+                  <span class="text-gray-300">Auto Shutdown PC</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="chkBackupFb" class="win-checkbox" checked>
+                  <span class="text-gray-300">Backup FB Data</span>
+                </label>
+              </div>
+
+              <!-- VPN Settings -->
+              <div class="flex items-center gap-4 text-xs">
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="chkSurfshark" class="win-checkbox">
+                  <span>Use Surfshark</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="chkUseVpnCity" class="win-checkbox" checked>
+                  <span>Use vpn City</span>
+                </label>
+                <div class="flex items-center gap-1.5 flex-1 justify-end">
+                  <span class="text-gray-400">VPN City for Reg & Login:</span>
+                  <input type="text" id="vpnCityInput" value="Chicago" class="win-input w-28 text-[11px]">
+                </div>
+              </div>
+            </div>
+
+            <!-- Main Automation Action Buttons (Start, Stop, Export, Delete) -->
+            <div class="space-y-2 mt-2">
+              <div class="flex items-center justify-between gap-2 pt-2 border-t border-gray-800">
+                <button onclick="startAutomation()" id="btnStart" class="win-btn flex-1 py-1 text-cyan-400 justify-center font-bold text-xs bg-cyan-950/30 hover:bg-cyan-900/40">
+                  <i class="fas fa-play text-xs text-cyan-400"></i> Start
+                </button>
+                <button onclick="stopAutomation()" id="btnStop" class="win-btn flex-1 py-1 text-red-400 justify-center font-bold text-xs bg-red-950/30 hover:bg-red-900/40 opacity-75">
+                  <i class="fas fa-stop text-xs text-red-500"></i> Stop
+                </button>
+                <button onclick="exportAccounts()" class="win-btn flex-1 py-1 text-sky-400 justify-center font-medium text-xs">
+                  <i class="fas fa-file-export text-xs"></i> Export Accounts
+                </button>
+                <button onclick="deleteSelectedAccounts()" class="win-btn flex-1 py-1 text-rose-400 justify-center font-medium text-xs">
+                  <i class="fas fa-trash-alt text-xs"></i> Delete Accounts
+                </button>
+              </div>
+
+              <!-- Quick Status Footer Links -->
+              <div class="flex items-center justify-between text-[11px] text-gray-400 px-1 select-none">
+                <button onclick="showQuickModal('Result Post')" class="hover:text-amber-400 transition-colors">Result Post</button>
+                <button onclick="showQuickModal('Result Active')" class="hover:text-amber-400 transition-colors">Result Active</button>
+                <button onclick="showQuickModal('Add Schedule')" class="hover:text-amber-400 transition-colors">Add Schedule</button>
+                <button onclick="refreshIPAction()" class="hover:text-cyan-400 transition-colors">Refresh IP</button>
+                <button onclick="restartADBAction()" class="hover:text-cyan-400 transition-colors">Restart ADB</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Window Bottom Status Bar -->
+    <div class="h-6 bg-[#0f0f0f] border-t border-gray-800 px-3 flex items-center justify-between text-[10px] text-gray-500">
+      <div class="flex items-center gap-3">
+        <span class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 running-dot"></span>
+          <span id="serviceStatusText" class="text-gray-400">Service: Ready</span>
+        </span>
+        <span>|</span>
+        <span>ADB Port: <strong class="text-gray-400">5555</strong></span>
+        <span>|</span>
+        <span>Threads Alive: <strong id="aliveThreads" class="text-cyan-400">0/8</strong></span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span>License: <strong>Unlimited Lifetime (Pro)</strong></span>
+        <span>Server Ping: <strong class="text-emerald-400">24ms</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL / DIALOG COMPONENT (Replaces alert() and confirm()) -->
+  <div id="customModal" class="fixed inset-0 bg-black/75 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+    <div class="w-full max-w-md rounded-lg border border-amber-500/80 bg-neutral-900 text-gray-200 shadow-2xl p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+        <div class="flex items-center gap-2 text-amber-400 font-semibold text-sm">
+          <i id="modalIcon" class="fas fa-info-circle"></i>
+          <span id="modalTitle">System Notification</span>
+        </div>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-white text-xs">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="modalBody" class="text-xs text-gray-300 py-1 leading-relaxed">
+        Dialog content goes here.
+      </div>
+      <div id="modalFooter" class="flex justify-end gap-2 pt-2 border-t border-gray-800">
+        <button onclick="closeModal()" class="win-btn px-4 py-1 text-xs">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Full Mock Data strictly aligned with the authentic screenshot */
+    const rawAccountsData = [
+      { id: 1, name: "Robert Teno", pages: 5, friends: "640", primary: "Las Vegas, Nevada", gps: "36.170403, -115....", vpn: "Seattle", deletePost: "Happy Videos...", folder: "", status: "Live", action: "" },
+      { id: 2, name: "Reva Lamere", pages: 2, friends: "1.7K", primary: "Las Vegas, Nevada", gps: "36.166613, -115....", vpn: "Bend", deletePost: "GToTa9 Tv, H...", folder: "", status: "Live", action: "" },
+      { id: 3, name: "Lurline Gray", pages: 6, friends: "915", primary: "Las Vegas, Nevada", gps: "36.164495, -115....", vpn: "San Francisco", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 4, name: "Lisa Lowe", pages: 1, friends: "655", primary: "Las Vegas, Nevada", gps: "36.170403, -115....", vpn: "San Jose", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 5, name: "Temeka Howell", pages: 2, friends: "4.8K", primary: "Las Vegas, Nevada", gps: "36.166613, -115....", vpn: "Salt Lake City", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 6, name: "Zina Zina", pages: 4, friends: "6.7K", primary: "Las Vegas, Nevada", gps: "36.164495, -115....", vpn: "Los Angeles", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 7, name: "Hem Theara", pages: 3, friends: "1.3K", primary: "Sloan, Nevada", gps: "36.170403, -115....", vpn: "Las Vegas", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 8, name: "Oun NaNa", pages: 4, friends: "215", primary: "Las Vegas, Nevada", gps: "36.166613, -115....", vpn: "Denver", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 9, name: "Sok Pisey", pages: 4, friends: "1.5K", primary: "Anlóng Veng, Sie...", gps: "36.164495, -115....", vpn: "Phoenix", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 10, name: "Ah Nich", pages: 2, friends: "763", primary: "Las Vegas, Nevada", gps: "36.170403, -115....", vpn: "New York", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 11, name: "Kong Srey Noch", pages: 3, friends: "11", primary: "Las Vegas, Nevada", gps: "36.166613, -115....", vpn: "Chicago", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 12, name: "Oun Nita", pages: 4, friends: "120", primary: "Las Vegas, Nevada", gps: "36.164495, -115....", vpn: "Detroit", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 13, name: "Seav Mey", pages: 4, friends: "733", primary: "Las Vegas, Nevada", gps: "36.170403, -115....", vpn: "Latham", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 14, name: "Leng Nimal", pages: 6, friends: "756", primary: "Somrong, Siemre...", gps: "36.170403, -115....", vpn: "Buffalo", deletePost: "", folder: "", status: "Live", action: "" },
+      { id: 15, name: "Heng Srey Nea", pages: 3, friends: "763", primary: "Las Vegas, Nevada", gps: "36.164495, -115....", vpn: "Boston", deletePost: "", folder: "", status: "Live", action: "" }
+    ];
+
+    // Expand mock data to simulate full 52 records
+    for (let i = 16; i <= 52; i++) {
+      rawAccountsData.push({
+        id: i,
+        name: `User Farm #${i}`,
+        pages: (i % 6) + 1,
+        friends: `${(i * 115) % 4000 + 100}`,
+        primary: i % 3 === 0 ? "Phnom Penh, KH" : "Las Vegas, Nevada",
+        gps: "36.170403, -115....",
+        vpn: ["Miami", "Dallas", "Austin", "Portland", "Houston", "San Diego"][i % 6],
+        deletePost: i % 4 === 0 ? "Active Promotion..." : "",
+        folder: "",
+        status: i % 14 === 0 ? "Checkpoint" : "Live",
+        action: ""
+      });
+    }
+
+    // Emulator List Data
+    const emulatorsData = [
+      { id: 1, name: "fox_fb-1", device: "", status: "Offline" },
+      { id: 2, name: "fox_fb-2", device: "", status: "Offline" },
+      { id: 3, name: "fox_fb-3", device: "", status: "Offline" },
+      { id: 4, name: "fox_fb-4", device: "", status: "Offline" },
+      { id: 5, name: "fox_fb-5", device: "", status: "Offline" },
+      { id: 6, name: "fox_fb-6", device: "", status: "Offline" },
+      { id: 7, name: "fox_fb-7", device: "", status: "Offline" },
+      { id: 8, name: "fox_fb-8", device: "", status: "Offline" }
+    ];
+
+    // State
+    let accounts = [...rawAccountsData];
+    let selectedAccounts = new Set([3]); // Row 3 is selected in the screenshot
+    let selectedEmulators = new Set();
+    let isRunning = false;
+    let timerInterval = null;
+    let timerSeconds = 0;
+    let activeNav = "dashboard";
+
+    function renderAccountsTable() {
+      const tbody = document.getElementById("accountsTableBody");
+      tbody.innerHTML = "";
+
+      accounts.forEach(row => {
+        const tr = document.createElement("tr");
+        const isSelected = selectedAccounts.has(row.id);
+        if (isSelected) tr.classList.add("selected");
+
+        tr.onclick = (e) => {
+          // Toggle selection
+          if (e.ctrlKey || e.metaKey) {
+            if (selectedAccounts.has(row.id)) selectedAccounts.delete(row.id);
+            else selectedAccounts.add(row.id);
+          } else {
+            if (selectedAccounts.has(row.id) && selectedAccounts.size === 1) {
+              selectedAccounts.delete(row.id);
+            } else {
+              selectedAccounts.clear();
+              selectedAccounts.add(row.id);
+            }
+          }
+          updateAccountsSelectionUI();
+          renderAccountsTable();
+        };
+
+        tr.innerHTML = `
+          <td class="text-center font-mono text-gray-400">${row.id}</td>
+          <td class="font-medium text-slate-200">${escapeHtml(row.name)}</td>
+          <td class="text-center">${row.pages}</td>
+          <td class="text-right pr-3 font-mono">${row.friends}</td>
+          <td class="text-gray-300">${escapeHtml(row.primary)}</td>
+          <td class="font-mono text-gray-400">${escapeHtml(row.gps)}</td>
+          <td class="text-sky-300">${escapeHtml(row.vpn)}</td>
+          <td class="text-gray-400 italic">${escapeHtml(row.deletePost || "-")}</td>
+          <td class="text-center text-gray-500">${escapeHtml(row.folder || "")}</td>
+          <td class="text-center">
+            <span class="px-1.5 py-0.5 rounded text-[10px] ${row.status === 'Live' ? 'text-emerald-400 bg-emerald-950/40 border border-emerald-800' : 'text-rose-400 bg-rose-950/40 border border-rose-800'}">
+              ${row.status}
+            </span>
+          </td>
+          <td class="text-center">
+            <button onclick="event.stopPropagation(); executeRowAction(${row.id})" class="text-[10px] text-amber-400 hover:text-white px-1 py-0.5 rounded border border-gray-700 hover:border-amber-400">
+              Run
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateAccountsSelectionUI();
+    }
+
+    function renderEmulatorTable() {
+      const tbody = document.getElementById("emulatorTableBody");
+      tbody.innerHTML = "";
+
+      emulatorsData.forEach(row => {
+        const tr = document.createElement("tr");
+        const isSelected = selectedEmulators.has(row.id);
+        if (isSelected) tr.classList.add("selected");
+
+        tr.onclick = () => {
+          if (selectedEmulators.has(row.id)) selectedEmulators.delete(row.id);
+          else selectedEmulators.add(row.id);
+          updateEmulatorSelectionUI();
+          renderEmulatorTable();
+        };
+
+        const statusClass = row.status === "Running" ? "text-cyan-400 font-semibold" : "text-gray-500";
+
+        tr.innerHTML = `
+          <td class="text-center font-mono text-gray-400">${row.id}</td>
+          <td class="font-mono text-slate-300 font-semibold">${row.name}</td>
+          <td class="font-mono text-gray-400">${row.device || "-"}</td>
+          <td class="text-center ${statusClass}">${row.status}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateEmulatorSelectionUI();
+    }
+
+    function updateAccountsSelectionUI() {
+      const count = selectedAccounts.size;
+      document.getElementById("statSelected").innerText = count;
+      document.getElementById("statSelectedMax").innerText = accounts.length;
+      document.getElementById("statTotal").innerText = accounts.length;
+      document.getElementById("selectAllAccounts").checked = (count === accounts.length && accounts.length > 0);
+    }
+
+    function updateEmulatorSelectionUI() {
+      const count = selectedEmulators.size;
+      document.getElementById("emuSelectedCount").innerText = count;
+      document.getElementById("selectAllEmu").checked = (count === emulatorsData.length && emulatorsData.length > 0);
+    }
+
+    function handleSearch(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        accounts = [...rawAccountsData];
+      } else {
+        accounts = rawAccountsData.filter(item => 
+          item.name.toLowerCase().includes(q) ||
+          item.primary.toLowerCase().includes(q) ||
+          item.vpn.toLowerCase().includes(q) ||
+          item.status.toLowerCase().includes(q)
+        );
+      }
+      renderAccountsTable();
+    }
+
+    function toggleSelectAllAccounts(checked) {
+      if (checked) {
+        selectedAccounts = new Set(accounts.map(a => a.id));
+      } else {
+        selectedAccounts.clear();
+      }
+      renderAccountsTable();
+    }
+
+    function toggleSelectAllEmulators(checked) {
+      if (checked) {
+        selectedEmulators = new Set(emulatorsData.map(e => e.id));
+      } else {
+        selectedEmulators.clear();
+      }
+      renderEmulatorTable();
+    }
+
+    function toggleViewMode(mode) {
+      if (mode === "pages") {
+        accounts = rawAccountsData.filter(a => a.pages > 2);
+      } else {
+        accounts = [...rawAccountsData];
+      }
+      renderAccountsTable();
+    }
+
+    function switchEmulatorTab(type) {
+      emulatorsData.forEach(e => {
+        if (type === "LDPlayer") e.name = `fox_fb-${e.id}`;
+        else if (type === "Mumu") e.name = `mumu_fb_x64_${e.id}`;
+        else e.name = `SM-G998B_US_${e.id}`;
+      });
+      renderEmulatorTable();
+    }
+
+    function switchNav(key) {
+      activeNav = key;
+      document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+      const activeBtn = document.getElementById(`btn-nav-${key}`);
+      if (activeBtn) activeBtn.classList.add("active");
+
+      if (key === "active") {
+        showCustomModal("Active Manager", "Filter updated to live running profiles only.");
+      } else if (key === "login") {
+        showCustomModal("Login Manager", "Ready to push credentials or session cookies into emulators.");
+      } else if (key === "reg") {
+        showCustomModal("Registration Automation", "Phone/Mail bulk registration pipeline armed.");
+      }
+    }
+
+    function setTheme(themeName) {
+      document.body.setAttribute("data-theme", themeName);
+      
+      // Update theme buttons
+      document.querySelectorAll(".theme-btn").forEach(btn => {
+        btn.classList.remove("bg-amber-500", "bg-blue-600", "bg-pink-600", "bg-purple-600", "text-black", "font-semibold");
+        btn.classList.add("text-gray-300");
+      });
+
+      const activeBtn = document.getElementById(`theme-btn-${themeName}`);
+      if (activeBtn) {
+        if (themeName === "Gold") {
+          activeBtn.classList.add("bg-amber-500", "text-black", "font-semibold");
+        } else if (themeName === "Dark") {
+          activeBtn.classList.add("bg-blue-600", "text-white", "font-semibold");
+        } else if (themeName === "Pink") {
+          activeBtn.classList.add("bg-pink-600", "text-white", "font-semibold");
+        } else if (themeName === "Dracula") {
+          activeBtn.classList.add("bg-purple-600", "text-white", "font-semibold");
+        }
+      }
+    }
+
+    function startAutomation() {
+      if (isRunning) return;
+      if (selectedEmulators.size === 0) {
+        // Select first 4 emulators as friendly default if none chosen
+        selectedEmulators = new Set([1, 2, 3, 4]);
+        renderEmulatorTable();
+      }
+
+      isRunning = true;
+      document.getElementById("btnStart").classList.add("ring-2", "ring-cyan-400");
+      document.getElementById("btnStop").classList.remove("opacity-75");
+      document.getElementById("serviceStatusText").innerText = "Service: Running Task Loop";
+      document.getElementById("serviceStatusText").classList.add("text-cyan-400");
+      document.getElementById("aliveThreads").innerText = `${selectedEmulators.size}/8`;
+
+      // Mark selected emulators as running
+      emulatorsData.forEach(e => {
+        if (selectedEmulators.has(e.id)) {
+          e.status = "Running";
+          e.device = `127.0.0.1:555${e.id * 2 + 3}`;
+        }
+      });
+      renderEmulatorTable();
+
+      // Start timer
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, "0");
+        const mins = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, "0");
+        const secs = String(timerSeconds % 60).padStart(2, "0");
+        document.getElementById("timerDisplay").innerText = `${hrs}:${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function stopAutomation() {
+      if (!isRunning) return;
+      isRunning = false;
+      clearInterval(timerInterval);
+      document.getElementById("btnStart").classList.remove("ring-2", "ring-cyan-400");
+      document.getElementById("btnStop").classList.add("opacity-75");
+      document.getElementById("serviceStatusText").innerText = "Service: Stopped";
+      document.getElementById("serviceStatusText").classList.remove("text-cyan-400");
+      document.getElementById("aliveThreads").innerText = "0/8";
+
+      emulatorsData.forEach(e => {
+        e.status = "Offline";
+      });
+      renderEmulatorTable();
+    }
+
+    function executeRowAction(id) {
+      showCustomModal("Execute Account Task", `Dispatched profile action for Account ID #${id}.`);
+    }
+
+    function createCategory() {
+      const input = document.getElementById("newCategoryInput");
+      const val = input.value.trim();
+      if (!val) {
+        showCustomModal("Notice", "Please enter a category name first.");
+        return;
+      }
+      const select = document.getElementById("categorySelect");
+      const opt = document.createElement("option");
+      opt.value = val;
+      opt.innerText = val;
+      opt.selected = true;
+      select.appendChild(opt);
+      input.value = "";
+      showCustomModal("Category Created", `Category "${val}" added successfully.`);
+    }
+
+    function deleteCategory() {
+      const select = document.getElementById("categorySelect");
+      if (select.value === "All") {
+        showCustomModal("Warning", "Cannot delete default 'All Accounts' category.");
+        return;
+      }
+      const removed = select.value;
+      select.remove(select.selectedIndex);
+      showCustomModal("Category Deleted", `Category "${removed}" removed.`);
+    }
+
+    function addToCategory() {
+      showCustomModal("Batch Grouping", `Assigned ${selectedAccounts.size} account(s) to current category.`);
+    }
+
+    function removeFromCategory() {
+      showCustomModal("Batch Grouping", `Removed ${selectedAccounts.size} account(s) from category.`);
+    }
+
+    function refreshTableData() {
+      accounts = [...rawAccountsData];
+      renderAccountsTable();
+      showCustomModal("Synchronized", "Table refreshed from SQLite local database cache.");
+    }
+
+    function exportAccounts() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(accounts, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "facebook_accounts_export.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showCustomModal("Export Complete", `Exported ${accounts.length} accounts to JSON file.`);
+    }
+
+    function deleteSelectedAccounts() {
+      if (selectedAccounts.size === 0) {
+        showCustomModal("Delete Accounts", "No accounts currently selected.");
+        return;
+      }
+      const count = selectedAccounts.size;
+      accounts = accounts.filter(a => !selectedAccounts.has(a.id));
+      selectedAccounts.clear();
+      renderAccountsTable();
+      showCustomModal("Accounts Deleted", `Successfully removed ${count} account records.`);
+    }
+
+    function browseEmulatorPath() {
+      const newPath = prompt("Enter full LDPlayer or MuMu installation folder path:", document.getElementById("emuPathInput").value);
+      if (newPath) {
+        document.getElementById("emuPathInput").value = newPath;
+      }
+    }
+
+    function refreshADBDevices() {
+      showCustomModal("ADB Scan", "Scanning ADB daemon on 127.0.0.1... 8 virtual devices synchronized.");
+    }
+
+    function refreshIPAction() {
+      const randomOctet = Math.floor(Math.random() * 200) + 20;
+      document.getElementById("currentIp").innerText = `175.100.33.${randomOctet}`;
+      showCustomModal("VPN / Proxy Swapped", `New outbound IP: 175.100.33.${randomOctet}`);
+    }
+
+    function restartADBAction() {
+      showCustomModal("ADB Service", "Restarting adb server via 'adb kill-server && adb start-server'...");
+    }
+
+    function showQuickModal(title) {
+      showCustomModal(title, `Window "${title}" opened. Automation statistics verified.`);
+    }
+
+    /* Modal handler (non-alert) */
+    function showCustomModal(title, message) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalBody").innerText = message;
+      const modal = document.getElementById("customModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("customModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function minimizeWindow() {
+      showCustomModal("Window System", "Minimized to Windows system tray.");
+    }
+
+    function toggleMaximize() {
+      const appWin = document.getElementById("app-window");
+      if (appWin.classList.contains("max-w-[1360px]")) {
+        appWin.classList.remove("max-w-[1360px]", "h-[920px]", "rounded-lg");
+        appWin.classList.add("w-full", "h-full", "rounded-none");
+      } else {
+        appWin.classList.add("max-w-[1360px]", "h-[920px]", "rounded-lg");
+        appWin.classList.remove("w-full", "h-full", "rounded-none");
+      }
+    }
+
+    function closeAppModal() {
+      showCustomModal("Exit Fox Facebook Pro", "To terminate background automation loops, please stop active tasks first or minimize.");
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    window.onload = function() {
+      renderAccountsTable();
+      renderEmulatorTable();
+    };
+  </script>
+</body>
+</html>
